@@ -9,16 +9,16 @@ const getProfile = (property) => {
 };
 
 // for DEV
-export const initializeSocket = () => {
-  const socket = io("http://localhost:5000", {
-    allowCredentials: true,
-    extraHeaders: {
-      token: `Bearer ${getProfile("token")}`,
-      userProfile: JSON.stringify(getProfile("result")),
-    },
-  });
-  return socket;
-};
+// export const initializeSocket = () => {
+//   const socket = io("http://localhost:5000", {
+//     allowCredentials: true,
+//     extraHeaders: {
+//       token: `Bearer ${getProfile("token")}`,
+//       userProfile: JSON.stringify(getProfile("result")),
+//     },
+//   });
+//   return socket;
+// };
 
 // Production
 export const initializeSocket = () => {
