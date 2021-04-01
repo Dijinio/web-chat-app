@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // For dev
-axios.defaults.baseURL = "http://localhost:5000";
+// axios.defaults.baseURL = "http://localhost:5000";
 
 // Auth header
 axios.interceptors.request.use((req) => {
