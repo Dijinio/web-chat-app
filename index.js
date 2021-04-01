@@ -65,6 +65,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("sendMessage", async ({ roomName, message }) => {
+    if (!message) return;
     const updatedRoom = await addMessageToRoom(roomName, message, user);
 
     // Send updated room object to front-end

@@ -165,6 +165,7 @@ function Chat({ match: { params } }) {
                   fullWidth
                   placeholder="type a message"
                   autoFocus
+                  required
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                 />
