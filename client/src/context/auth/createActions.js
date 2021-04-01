@@ -25,7 +25,7 @@ const createActions = (dispatch) => {
     logout: (history) => {
       dispatch({ type: "LOGOUT" });
 
-      history.push("/signin");
+      history.push("/");
     },
   };
 };

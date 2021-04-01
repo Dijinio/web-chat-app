@@ -1,5 +1,13 @@
 import React, { useState, useContext } from "react";
-import { Button, Paper, Grid, Typography, Container } from "@material-ui/core";
+import {
+  Button,
+  Paper,
+  Grid,
+  Typography,
+  Container,
+  Avatar,
+} from "@material-ui/core";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { useHistory } from "react-router-dom";
 import Input from "./Input";
 import useStyles from "./styles";
@@ -12,7 +20,7 @@ const initialData = {
   confirmPassword: "",
 };
 
-function Auth() {
+function Auth({ elevation }) {
   const [isSignup, setIsSignup] = useState(false);
   const [formData, setFormData] = useState(initialData);
   const classes = useStyles();
@@ -37,8 +45,16 @@ function Auth() {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Paper elevation={3} className={classes.paper}>
+    <Container
+      component="main"
+      maxWidth="xs"
+      className={classes.root}
+      style={{ marginTop: elevation === 0 ? "0" : "100px" }}
+    >
+      <Paper elevation={elevation} className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
         <Typography variant="h5">{isSignup ? "Sign Up" : "Sign In"}</Typography>
         <Typography variant="h6" style={{ color: "#ed4337" }}>
           {errorMessage}

@@ -8,7 +8,7 @@ import Chat from "./components/Chat/Chat";
 function App() {
   return (
     <BrowserRouter>
-      <Navbar />
+      {/* <Navbar /> */}
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/signin" component={Auth} />

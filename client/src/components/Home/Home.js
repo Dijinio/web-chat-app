@@ -1,26 +1,20 @@
-import {
-  Button,
-  Container,
-  FormControl,
-  MenuItem,
-  Paper,
-  Select,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import { Button, Container, Grid, Paper, Typography } from "@material-ui/core";
 import React, { useContext, useState, useEffect } from "react";
 import { fetchRoomNames } from "../../api/";
 import { AuthContext } from "../../context/auth";
-import { useHistory } from "react-router-dom";
 import Auth from "../Auth/Auth";
+import useStyles from "./styles";
+import Menu from "./Menu/Menu";
+import { useHistory } from "react-router-dom";
 
 function Home() {
+  const classes = useStyles();
   const [rooms, setRooms] = useState([]);
-  const [selectedRoom, setSelectedRoom] = useState("");
-  const [newRoom, setNewRoom] = useState("");
   const history = useHistory();
+
   const {
     auth: { user },
+    actions: { logout },
   } = useContext(AuthContext);
 
   const getRoomNames = async () => {
@@ -29,7 +23,6 @@ function Home() {
         data: { rooms },
       } = await fetchRoomNames();
       setRooms(rooms);
-      setSelectedRoom(rooms[0]);
     } catch (error) {}
   };
 
@@ -39,78 +32,40 @@ function Home() {
     }
   }, [user]);
 
-  const handleRoomChange = (e) => {
-    setSelectedRoom(e.target.value);
-  };
-
-  const handleNewRoomChange = (e) => {
-    setNewRoom(e.target.value);
-  };
-
-  const handleSubmit = () => {
-    const room = newRoom ? newRoom : selectedRoom;
-    history.push(`/chatRooms/${room}`);
-  };
-
-  if (!user.name) {
-    return <Auth />;
-  }
-
   return (
-    <Container
-      maxWidth="sm"
-      style={{ textAlign: "center", height: "50vh", marginTop: "100px" }}
-    >
-      <Paper elevation={1} style={{ padding: "50px 20px" }}>
-        <Typography variant="h4" align="center">
-          Hello {user.name}
-        </Typography>
-        <Typography variant="h4" align="center">
-          Welcome to Chat app!
-        </Typography>
-        <div style={{ marginTop: "100px" }}>
-          <Typography variant="h6" align="center">
-            Select the room
-          </Typography>
-          <FormControl variant="outlined" style={{ width: "50%" }}>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={selectedRoom}
-              onChange={handleRoomChange}
-            >
-              {rooms.map((room) => (
-                <MenuItem key={room} value={room}>
-                  {room}
-                </MenuItem>
-              ))}
-            </Select>
-            <Typography
-              variant="h6"
-              align="center"
-              style={{ margin: "10px 0" }}
-            >
-              or create a new one
+    <Container maxWidth="md">
+      <Grid container spacing={0} className={classes.root}>
+        <Grid item xs={12} md={6}>
+          <Paper elevation={0} className={classes.left}>
+            <Typography variant="h4" className={classes.welcomeFirst}>
+              welcome to the
             </Typography>
-            <TextField
-              value={newRoom}
-              onChange={handleNewRoomChange}
-              label="Room name"
-              variant="outlined"
-              onKeyPress={(e) => (e.key === "Enter" ? handleSubmit() : null)}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ marginTop: "20px" }}
-              size="large"
-              onClick={handleSubmit}
-            >
-              {newRoom ? "Create new room" : "Join Room"}
-            </Button>
-          </FormControl>
-        </div>
-      </Paper>
+            <Typography variant="h4" className={classes.welcomeSecond}>
+              web chat
+            </Typography>
+            {user.name && (
+              <Button
+                variant="outlined"
+                color="inherit"
+                size="large"
+                style={{ marginTop: "100px" }}
+                onClick={() => logout(history)}
+              >
+                Logout
+              </Button>
+            )}
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Paper elevation={0} className={classes.right}>
+            {user.name ? (
+              <Menu rooms={rooms} user={user} />
+            ) : (
+              <Auth elevation={0} />
+            )}
+          </Paper>
+        </Grid>
+      </Grid>
     </Container>
   );
 }
