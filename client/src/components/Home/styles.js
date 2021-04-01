@@ -2,9 +2,14 @@ import { makeStyles } from "@material-ui/core";
 import { deepPurple } from "@material-ui/core/colors";
 
 export default makeStyles((theme) => ({
+  container: {
+    height: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   root: {
     minHeight: "600px",
-    marginTop: "150px",
     boxShadow: "5px 5px 20px rgba(0,0,0,0.6)",
     borderRadius: "4px",
   },
@@ -13,6 +18,7 @@ export default makeStyles((theme) => ({
     width: "100%",
     display: "flex",
     flexDirection: "column",
+    padding: "20px 0",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: deepPurple[500],
@@ -22,6 +28,7 @@ export default makeStyles((theme) => ({
   right: {
     height: "100%",
     width: "100%",
+    padding: "20px 0",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",

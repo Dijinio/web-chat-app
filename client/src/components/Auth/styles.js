@@ -1,10 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    height: "100%",
-  },
   paper: {
     display: "flex",
     flexDirection: "column",
@@ -12,6 +8,8 @@ export default makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   root: {
+    width: "100%",
+    height: "100%",
     "& .MuiTextField-root": {
       margin: theme.spacing(1),
     },

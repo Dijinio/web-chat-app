@@ -1,33 +1,32 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import {
-  Avatar,
   Button,
   Grid,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   TextField,
   Typography,
   CircularProgress,
+  Hidden,
 } from "@material-ui/core";
 import CustomSnackbar from "../Snackbar/Snackbar";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { ChatContext } from "../../context/chat";
 import { AuthContext } from "../../context/auth";
 import { initializeSocket } from "../../api/socketInit";
-import Auth from "../Auth/Auth";
+import Home from "../Home/Home";
 import Message from "./Message/Message";
+import RoomUserList from "./RoomUserList/RoomUserList";
 import useStyles from "./styles";
 
 function Chat({ match: { params } }) {
   const classes = useStyles();
+  const history = useHistory();
   const {
     chatRoom,
     actions: { updateRoom, joinChat, leaveChat, sendMessage },
   } = useContext(ChatContext);
   const {
     auth: { user },
+    actions: { logout },
   } = useContext(AuthContext);
 
   const [message, setMessage] = useState("");
@@ -40,10 +39,9 @@ function Chat({ match: { params } }) {
 
   const scrollRef = useRef();
 
-  const scrollToEnd = (behavior) => {
+  const scrollToEnd = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollIntoView({
-        behavior,
         alignToTop: true,
       });
     }
@@ -55,10 +53,6 @@ function Chat({ match: { params } }) {
       setSocket(io);
     };
     initSocket();
-
-    setTimeout(() => {
-      scrollToEnd("auto");
-    }, 1000);
   }, []);
 
   useEffect(() => {
@@ -84,18 +78,20 @@ function Chat({ match: { params } }) {
     }
   }, [socket]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      scrollToEnd();
+    }, 100);
+  }, [chatRoom]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     sendMessage(message, chatRoom.name, socket);
     setMessage("");
-
-    setTimeout(() => {
-      scrollToEnd("smooth");
-    }, 300);
   };
 
   if (!user.name) {
-    return <Auth />;
+    return <Home />;
   }
 
   if (params?.name !== chatRoom.name) {
@@ -107,83 +103,102 @@ function Chat({ match: { params } }) {
   }
 
   return (
-    <div className={classes.root}>
+    <div className={classes.container}>
       <CustomSnackbar
         snackbarAlert={snackbarAlert}
         setSnackbarAlert={setSnackbarAlert}
       />
-      <Grid container alignItems="center">
-        <Grid item xs={4}>
-          <Typography variant="h5" align="center" gutterBottom>
-            People in chat
-          </Typography>
-        </Grid>
-        <Grid item xs={8}>
-          <Typography variant="h4" align="center" gutterBottom>
-            #{chatRoom.name}
-          </Typography>
-        </Grid>
-      </Grid>
-      <Grid container className={classes.container}>
-        <Grid item xs={4} className={classes.usersBox}>
-          <List>
-            {chatRoom.users.map((u) => (
-              <ListItem button key={u._id}>
-                <ListItemIcon>
-                  <Avatar className={classes.orange}>
-                    {u.name ? u.name[0] : ""}
-                  </Avatar>
-                </ListItemIcon>
-                <ListItemText primary={u.name} />
-              </ListItem>
-            ))}
-          </List>
-        </Grid>
-        <Grid item xs={8} className={classes.messageBox}>
-          {chatRoom.messages.map((message, i) => (
-            <Message key={i} {...message} currentUser={user} />
-          ))}
-          <div ref={scrollRef} style={{ height: "30px", width: "100%" }}></div>
-        </Grid>
-      </Grid>
-      <Grid container alignItems="flex-end">
-        <Grid item xs={4} align="center">
-          <Button component={Link} to="/" variant="contained" color="secondary">
-            Leave the Room
-          </Button>
-        </Grid>
-        <Grid item xs={8}>
-          <form onSubmit={handleSubmit}>
-            <Grid
-              container
-              spacing={1}
-              alignItems="flex-end"
-              className={classes.input}
+      <div className={classes.root}>
+        <Hidden xsDown>
+          <div className={classes.left}>
+            <div className={classes.leftHeader}>
+              <Typography variant="h6" align="center">
+                People in Room
+              </Typography>
+            </div>
+            <div className={classes.leftBody}>
+              <RoomUserList users={chatRoom.users} currentUserId={user._id} />
+            </div>
+            <div className={classes.leftFooter}>
+              <Button
+                variant="outlined"
+                color="inherit"
+                fullWidth
+                component={Link}
+                to="/"
+              >
+                Leave Room
+              </Button>
+            </div>
+          </div>
+        </Hidden>
+        <div className={classes.right}>
+          <div className={classes.rightHeader}>
+            <Hidden smUp>
+              <Button
+                variant="outlined"
+                color="inherit"
+                component={Link}
+                to="/"
+              >
+                Leave Room
+              </Button>
+            </Hidden>
+            <Typography variant="h5" color="inherit">
+              #{chatRoom.name}
+            </Typography>
+            <Button
+              variant="contained"
+              className={classes.logoutButton}
+              onClick={() => logout(history)}
             >
-              <Grid item xs={8}>
-                <TextField
-                  fullWidth
-                  placeholder="type a message"
-                  autoFocus
-                  required
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                />
+              Logout
+            </Button>
+          </div>
+          <div className={classes.rightBody}>
+            <div className={classes.messagesContainer}>
+              {chatRoom.messages.map((message, i) => (
+                <Message key={i} {...message} currentUser={user} />
+              ))}
+              <div
+                ref={scrollRef}
+                style={{ height: "30px", width: "100%" }}
+              ></div>
+            </div>
+          </div>
+          <div className={classes.rightFooter}>
+            <form onSubmit={handleSubmit}>
+              <Grid
+                container
+                spacing={1}
+                alignItems="flex-end"
+                className={classes.input}
+              >
+                <Grid item xs={8}>
+                  <TextField
+                    fullWidth
+                    placeholder="type a message"
+                    autoFocus
+                    required
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <Button
+                    variant="outlined"
+                    type="submit"
+                    fullWidth
+                    className={classes.submitButton}
+                  >
+                    Send
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item xs={4}>
-                <Button
-                  variant="contained"
-                  type="submit"
-                  color="primary"
-                  fullWidth
-                >
-                  Send
-                </Button>
-              </Grid>
-            </Grid>
-          </form>
-        </Grid>
-      </Grid>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

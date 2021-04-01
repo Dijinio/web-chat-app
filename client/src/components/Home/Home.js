@@ -33,40 +33,42 @@ function Home() {
   }, [user]);
 
   return (
-    <Container maxWidth="md">
-      <Grid container spacing={0} className={classes.root}>
-        <Grid item xs={12} md={6}>
-          <Paper elevation={0} className={classes.left}>
-            <Typography variant="h4" className={classes.welcomeFirst}>
-              welcome to the
-            </Typography>
-            <Typography variant="h4" className={classes.welcomeSecond}>
-              web chat
-            </Typography>
-            {user.name && (
-              <Button
-                variant="outlined"
-                color="inherit"
-                size="large"
-                style={{ marginTop: "100px" }}
-                onClick={() => logout(history)}
-              >
-                Logout
-              </Button>
-            )}
-          </Paper>
+    <div className={classes.container}>
+      <Container maxWidth="md">
+        <Grid container spacing={0} className={classes.root}>
+          <Grid item xs={12} md={6}>
+            <Paper elevation={0} className={classes.left}>
+              <Typography variant="h4" className={classes.welcomeFirst}>
+                welcome to the
+              </Typography>
+              <Typography variant="h4" className={classes.welcomeSecond}>
+                web chat
+              </Typography>
+              {user.name && (
+                <Button
+                  variant="outlined"
+                  color="inherit"
+                  size="large"
+                  style={{ marginTop: "20%" }}
+                  onClick={() => logout(history)}
+                >
+                  Logout
+                </Button>
+              )}
+            </Paper>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Paper elevation={0} className={classes.right}>
+              {user.name ? (
+                <Menu rooms={rooms} user={user} />
+              ) : (
+                <Auth elevation={0} />
+              )}
+            </Paper>
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Paper elevation={0} className={classes.right}>
-            {user.name ? (
-              <Menu rooms={rooms} user={user} />
-            ) : (
-              <Auth elevation={0} />
-            )}
-          </Paper>
-        </Grid>
-      </Grid>
-    </Container>
+      </Container>
+    </div>
   );
 }
 

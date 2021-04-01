@@ -1,4 +1,6 @@
 import { makeStyles } from "@material-ui/core";
+import { green } from "@material-ui/core/colors";
+import { blueGrey } from "@material-ui/core/colors";
 
 export default makeStyles((theme) => ({
   root: {
@@ -11,7 +13,7 @@ export default makeStyles((theme) => ({
     margin: "5px 10px",
     borderRadius: "5px",
     padding: "5px 10px",
-    backgroundColor: "#5c6bc0",
+    backgroundColor: green[300],
     opacity: "0.9",
     alignSelf: "flex-end",
     overflowWrap: "break-word",
@@ -22,7 +24,7 @@ export default makeStyles((theme) => ({
     margin: "5px 10px",
     borderRadius: "5px",
     padding: "5px 10px",
-    backgroundColor: "#b0bec5",
+    backgroundColor: blueGrey[300],
     opacity: "0.9",
     alignSelf: "flex-start",
     overflowWrap: "break-word",
