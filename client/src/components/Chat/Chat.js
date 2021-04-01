@@ -167,35 +167,39 @@ function Chat({ match: { params } }) {
             </div>
           </div>
           <div className={classes.rightFooter}>
-            <form onSubmit={handleSubmit}>
-              <Grid
-                container
-                spacing={1}
-                alignItems="flex-end"
-                className={classes.input}
-              >
-                <Grid item xs={8}>
-                  <TextField
-                    fullWidth
-                    placeholder="type a message"
-                    autoFocus
-                    required
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <Button
-                    variant="outlined"
-                    type="submit"
-                    fullWidth
-                    className={classes.submitButton}
-                  >
-                    Send
-                  </Button>
-                </Grid>
+            <Grid
+              container
+              spacing={1}
+              alignItems="flex-end"
+              className={classes.input}
+            >
+              <Grid item xs={8}>
+                <TextField
+                  fullWidth
+                  placeholder="type a message"
+                  autoFocus
+                  multiline
+                  rowsMax={3}
+                  required
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  onKeyPress={(e) =>
+                    e.key === "Enter" ? handleSubmit(e) : null
+                  }
+                />
               </Grid>
-            </form>
+              <Grid item xs={4}>
+                <Button
+                  variant="outlined"
+                  type="submit"
+                  fullWidth
+                  className={classes.submitButton}
+                  onClick={(e) => handleSubmit(e)}
+                >
+                  Send
+                </Button>
+              </Grid>
+            </Grid>
           </div>
         </div>
       </div>

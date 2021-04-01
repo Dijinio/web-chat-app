@@ -38,18 +38,19 @@ function Home() {
         <Grid container spacing={0} className={classes.root}>
           <Grid item xs={12} md={6}>
             <Paper elevation={0} className={classes.left}>
-              <Typography variant="h4" className={classes.welcomeFirst}>
-                welcome to the
-              </Typography>
-              <Typography variant="h4" className={classes.welcomeSecond}>
-                web chat
-              </Typography>
+              <div>
+                <Typography variant="h4" className={classes.welcomeFirst}>
+                  welcome to the
+                </Typography>
+                <Typography variant="h4" className={classes.welcomeSecond}>
+                  web chat
+                </Typography>
+              </div>
               {user.name && (
                 <Button
                   variant="outlined"
                   color="inherit"
-                  size="large"
-                  style={{ marginTop: "20%" }}
+                  className={classes.logoutButton}
                   onClick={() => logout(history)}
                 >
                   Logout

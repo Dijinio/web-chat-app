@@ -31,7 +31,7 @@ function Menu({ rooms, user }) {
 
   return (
     <Paper elevation={0} className={classes.root}>
-      <Typography variant="h3" align="center" style={{ fontWeight: "300" }}>
+      <Typography variant="h3" align="center" className={classes.hello}>
         Hello {user.name}
       </Typography>
       <Typography variant="h6" align="center" style={{ marginTop: "30px" }}>

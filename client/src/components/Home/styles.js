@@ -3,7 +3,7 @@ import { deepPurple } from "@material-ui/core/colors";
 
 export default makeStyles((theme) => ({
   container: {
-    height: "100vh",
+    minHeight: "100vh",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -19,7 +19,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     padding: "20px 0",
-    justifyContent: "center",
+    justifyContent: "space-around",
     alignItems: "center",
     backgroundColor: deepPurple[500],
     color: theme.palette.getContrastText(deepPurple[500]),
@@ -36,14 +36,25 @@ export default makeStyles((theme) => ({
     borderRadius: "0 4px 4px 0",
   },
   welcomeFirst: {
+    textAlign: "center",
     letterSpacing: ".1rem",
     textTransform: "uppercase",
     fontWeight: "300",
+    fontSize: "clamp(1.5rem, 2.5vw, 2rem)",
   },
   welcomeSecond: {
+    textAlign: "center",
     marginTop: "1em",
     letterSpacing: ".2rem",
     textTransform: "uppercase",
     fontWeight: "800",
+    fontSize: "clamp(1.5rem, 2.5vw, 2rem)",
+    [theme.breakpoints.down("xs")]: {
+      marginTop: "0.3em",
+    },
+  },
+  logoutButton: {
+    fontSize: "clamp(1rem, 1.5vw, 1.5rem)",
+    fontWeight: "300",
   },
 }));

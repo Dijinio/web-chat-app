@@ -4,6 +4,7 @@ import backgroundImage from "../../images/chat-background.jpg";
 
 const headerHeight = "60px";
 const bodyHeight = "550px";
+const xsBodyHeight = "calc(100vh - 250px)";
 
 export default makeStyles((theme) => ({
   container: {
@@ -13,7 +14,6 @@ export default makeStyles((theme) => ({
     },
   },
   root: {
-    height: "700px",
     maxWidth: "800px",
     margin: "0 auto",
     backgroundColor: deepPurple[400],
@@ -24,13 +24,11 @@ export default makeStyles((theme) => ({
     },
   },
   left: {
-    height: "100%",
     maxWidth: "30%",
     flexBasis: "30%",
     color: theme.palette.getContrastText(deepPurple[400]),
   },
   right: {
-    height: "100%",
     maxWidth: "70%",
     flexBasis: "70%",
     [theme.breakpoints.down("xs")]: {
@@ -63,6 +61,9 @@ export default makeStyles((theme) => ({
   leftBody: {
     height: bodyHeight,
     overflowY: "auto",
+    [theme.breakpoints.down("xs")]: {
+      height: xsBodyHeight,
+    },
   },
   rightBody: {
     height: bodyHeight,
@@ -75,6 +76,9 @@ export default makeStyles((theme) => ({
     backgroundSize: "cover",
     borderRadius: "3px",
     boxShadow: "2px 2px 2px rgba(0,0,0,0.7) inset",
+    [theme.breakpoints.down("xs")]: {
+      height: xsBodyHeight,
+    },
   },
   leftFooter: {
     margin: "30px 20px 0 20px",
